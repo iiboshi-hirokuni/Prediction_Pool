@@ -1,0 +1,116 @@
+\documentclass[fleqn, 12pt]{jsarticle}
+
+\usepackage{amsmath, amssymb, bm, ascmac}
+\usepackage[square]{natbib}
+\usepackage[dvips]{graphicx}
+\usepackage{multirow}
+
+\pagestyle{plain}
+\setlength{\mathindent}{2zw}
+\setlength{\topmargin}{-2\baselineskip}
+\setlength{\textheight}{34\baselineskip}
+\addtolength{\textheight}{\topskip}
+%\setlength{\parindent}{0pt}
+
+\setcounter{page}{1}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\renewcommand{\refname}{参考文献}
+\renewcommand{\abstractname}{Abstract}
+
+\bibliographystyle{jecon}
+
+\title{KKモデル}
+\date{\today}
+\author{蓮見 亮}
+
+\begin{document}
+
+\maketitle
+
+\section{状態空間モデル（一般）}
+\begin{gather}
+y_t = Z_t \alpha_t + \epsilon_t \\
+\alpha_{t+1} = T_t \alpha_t + R_t \eta_t \\
+\alpha_1 \sim N(a_1, P_1)
+\end{gather}
+
+\section{状態空間モデル（KKモデル）}
+
+\begin{gather}
+y_t = d + Z \begin{bmatrix} \alpha_t \\ \alpha_{t-1} \end{bmatrix} + \epsilon_t,~~ t \ge 2 \\
+\begin{bmatrix} \alpha_{t+1} \\ \alpha_{t} \end{bmatrix} = 
+\begin{bmatrix} T & 0 \\ I & 0 \end{bmatrix} \begin{bmatrix} \alpha_{t} \\ \alpha_{t-1} \end{bmatrix} +
+\begin{bmatrix} R \\ 0 \end{bmatrix} \eta_t \\
+\begin{bmatrix} \alpha_{2} \\ \alpha_{1} \end{bmatrix} 
+\sim N \left(\begin{bmatrix} a_1 \\ a_1 \end{bmatrix} , \begin{bmatrix} P_1 & 0 \\ 0 & P_1 \end{bmatrix} \right)
+\end{gather}
+
+※状態変数の初期値の平均、分散については検討の余地あり。
+
+\section{SVモデル（一般, Kim et al. 1998）}
+
+\begin{gather}
+y_t = \exp(h_t/2) \varepsilon_t, \ \ t = 1, 2,\dots,n \label{eq1} \\
+h_{t+1} = \mu + \phi(h_t-\mu) + \sigma_\eta \eta_t \label{eq2} \\
+h_1 \sim N \left(\mu, \frac{\sigma_\eta^2}{1-\phi^2} \right) \label{eq3} \\
+\varepsilon_t \sim i.i.d.\ N(0, 1), \ \ \eta_t \sim i.i.d.\ N(0, 1)
+\end{gather}
+
+\begin{itembox}[l]{Gibbsサンプラー}
+\begin{enumerate}
+\item $\bm{s}, \phi, \sigma_\eta^2, \mu$を初期化
+\item $\bm{h}$ をサンプリング（simulation smoother）
+\item $\bm{s}$ をサンプリング（$s_t \in \{1, 2, 3, 4, 5, 6, 7\}$）
+\item $\phi, \sigma_\eta^2, \mu$ をサンプリング
+\item 2に戻る
+\end{enumerate}
+\end{itembox}
+
+\section{DSGE SVモデル（KKモデルのJP型拡張）}
+
+\begin{gather}
+y_t = d + Z \begin{bmatrix} \alpha_t \\ \alpha_{t-1} \end{bmatrix} + \epsilon_t,~~ t \ge 2 \\
+\begin{bmatrix} \alpha_{t+1} \\ \alpha_{t} \end{bmatrix} = 
+\begin{bmatrix} T(\bm{\theta}) & 0 \\ I & 0 \end{bmatrix} \begin{bmatrix} \alpha_{t} \\ \alpha_{t-1} \end{bmatrix} +
+\begin{bmatrix} R(\bm{\theta}) \\ 0 \end{bmatrix} \eta_t \\
+\log \eta_t = \begin{bmatrix} 
+\sigma_{1,t} & 0 & \dots & 0 \\
+0 & \sigma_{2,t} & \dots & 0 \\
+&\hdotsfor{2}& \\
+0 & 0 & \dots & \sigma_{m,t}
+ \end{bmatrix} \varepsilon_t, ~~ \varepsilon_t \sim N(0, I) \\
+\log \sigma_{i,t} = (1-\rho_{\sigma_{i}})\log \sigma_{i} + \rho_{\sigma_{i}} \log \sigma_{i,t-1} + \nu_{i, t} \\
+\nu_{i, t} \sim N(0, \omega_i^2)
+\end{gather}
+
+Kim et al. [1998]のノーテンションとの関係では、
+\begin{gather}
+\log \eta_t = y_t \\
+\log \sigma_{i,t} = h_t/2 \\
+\Leftrightarrow \sigma_{i,t} = \exp(h_t/2) \\
+\log \sigma_{i} = \mu/2 \\
+\rho_{\sigma_{i}} = \phi\\
+\omega_i  = \sigma_{\eta}/2
+\end{gather}
+
+\begin{itembox}[l]{Gibbsサンプラー}
+\begin{enumerate}
+\item $\bm{s}, \{\rho_{\sigma_{i}}\}, \{\omega_i\}, \{\sigma_{i}\}, \bm{\theta}$を初期化
+\item $\bm{\eta}$ をサンプリング（simulation smoother）
+\item $\{\sigma_{i,t}\}$ をサンプリング（simulation smoother）
+\item $\bm{s}$ をサンプリング（$s_t \in \{1, 2, 3, 4, 5, 6, 7\}$）
+\item $\{\rho_{\sigma_{i}}\}, \{\omega_i\}, \{\sigma_{i}\}$ をサンプリング（SVモデルのディープパラメータ）
+\item $\bm{\theta}$をサンプリング（DSGEモデルのディープパラメータ）
+\item 2に戻る
+\end{enumerate}
+\end{itembox}
+
+
+%\begin{abstruct}
+%
+%\end{abstruct}
+
+%\bibliography{reference}
+
+\end{document}

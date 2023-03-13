@@ -1,0 +1,332 @@
+//// Last Update 2006/11/18 20:47 ////
+
+
+#fHmnetex = false;  //IEならfalse、Hidemernet Explorerを使う場合true
+
+title "マクロ処理中...";
+call FistMenu;
+
+endmacro;
+
+FistMenu:{
+	call __SetSubMenu;
+	call __SetMainMenu;
+	##menufrag = 1;
+	while(1){
+		if(##menufrag == 1) mousemenuarray $MAINMENU,#MainMenuSize;
+		else menuarray $MAINMENU,#MainMenuSize;
+		##menufrag = 0;
+		if((result==0)|(result==#MainMenuSize)) endmacro;
+		#MNUM = result;
+		#BLOCK = 0;
+		while(1){
+			if(#MNUM<=#SubMenuSize[#BLOCK]+1) break;
+			#MNUM = #MNUM - #SubMenuSize[#BLOCK] - 1;
+			#BLOCK = #BLOCK + 1;
+		}
+		#MNUM = #MNUM-1;
+		if(#SubMenuSize[#BLOCK]<=#MNUM) continue;
+		call __ExeCommand;
+		if(##return != -5) break;
+	}
+	return;
+}
+
+__SetSubMenu:{
+	
+	##K = 0;
+	$SUBMENU[##K][0] = "コメント";
+	$SUBMENU[##K][1] = "アンコメント";
+	$SUBMENU[##K][2] = "インデント";
+	$SUBMENU[##K][3] = "アンインデント";
+	
+	##K = 1;
+	$SUBMENU[##K][0] = "コマンドプロンプト";
+	$SUBMENU[##K][1] = "カレントディレクトリ";
+	$SUBMENU[##K][2] = "マクロディレクトリ";
+	
+	##K = 2;
+	$SUBMENU[##K][0] = "文字数";
+	
+	##K = 3;
+	$SUBMENU[##K][0] = "選択範囲をソート";
+	
+	##K = 4;
+	$SUBMENU[##K][0] = "大文字にする";
+	$SUBMENU[##K][1] = "小文字にする";
+	
+	##K = 5;
+	$SUBMENU[##K][0] = "googleで検索";
+	
+	return;
+}
+
+__ExeCommand:{
+	if(#BLOCK==0){
+		if(#MNUM==0) call COMMENTOUT "comment","add";
+		if(#MNUM==1) call COMMENTOUT "comment","remove";
+		if(#MNUM==2) call COMMENTOUT "indent","add";
+		if(#MNUM==3) call COMMENTOUT "indent","remove";
+	}else if(#BLOCK==1){
+		if(#MNUM==0) call Commandline;
+		if(#MNUM==1) call Opendir;
+		if(#MNUM==2) call Macdir;
+	}else if(#BLOCK==2){
+		if(#MNUM==0) call Moji;
+	}else if(#BLOCK==3){
+		if(#MNUM==0) call Sort;
+	}else if(#BLOCK==4){
+		if(#MNUM==0) call S2C;
+		if(#MNUM==1) call C2S;
+	}else if(#BLOCK==5){
+		if(#MNUM==0) call google;
+	}
+	return ##return;
+}
+
+__SetMainMenu:{
+	while($SUBMENU[##p][0] != ""){
+		while($SUBMENU[##p][#SubMenuSize[##p]] != ""){
+			$MAINMENU[#MainMenuSize] = $SUBMENU[##p][#SubMenuSize[##p]];
+			#SubMenuSize[##p] = #SubMenuSize[##p] + 1;
+			#MainMenuSize = #MainMenuSize + 1;
+		}
+		$MAINMENU[#MainMenuSize] = "------------------------------------";
+		#MainMenuSize = #MainMenuSize + 1;
+		##p = ##p + 1;
+	}
+	$MAINMENU[#MainMenuSize] = "(&1) キャンセル";
+	#MainMenuSize = #MainMenuSize + 1;
+	return;
+}
+
+/////////////////////////////////////////////////////////////////
+
+_SetSign:{
+	$$EXT[0] = ".spc"; $$SIGN[0] = "#";
+	$$EXT[1] = ".mac"; $$SIGN[1] = "//";
+	$$EXT[2] = ".txt"; $$SIGN[2] = ">";
+	$$EXT[3] = ".tex"; $$SIGN[3] = "%";
+	$$EXT[4] = ".c";   $$SIGN[4] = "//";
+	$$EXT[5] = ".h";   $$SIGN[5] = "//";
+	$$EXT[6] = ".cpp"; $$SIGN[6] = "//";
+	$$EXT[7] = ".rlt"; $$SIGN[7] = "#";
+	$$EXT[8] = ".cmd"; $$SIGN[8] = "!";
+	$$EXT[9] = ".m";   $$SIGN[9] = "%";
+	$$EXT[10] = ".prg";   $$SIGN[10] = "'";
+	$$EXT[11] = ".r";   $$SIGN[11] = "#";
+        $$EXT[12] = ".py";   $$SIGN[12] = "#";
+        $$EXT[13] = ".fs";   $$SIGN[13] = "//";
+        $$EXT[14] = ".fsx";   $$SIGN[14] = "//";
+
+	##k=0;while(($$EXT[##k]!="")&($$EXT[##k]!=filetype)) ##k=##k+1;
+	return $$SIGN[##k];
+}
+
+COMMENTOUT:{
+	disableinvert;disabledraw;
+	if($$1=="comment"){
+		call _SetSign;
+		$$S = $$return;
+		if($$S==""){
+			$$S = input("コメントアウト記号を入力してください");
+			if($$S=="") endmacro;
+		}
+	}else if($$1=="indent") $$S = "\t";
+	if($$2=="add"){ $$AA = "^"; $$BB = $$S; }
+	if($$2=="remove"){ $$AA = "^"+$$S; $$BB = ""; }
+	if(selecting){
+		##y1 = seltoplineno;##y2 = selendlineno;
+		replaceallfast $$AA,$$BB,casesense,regular,inselect;
+		movetolineno 1,##y1;beginsel;movetolineno 1,##y2;golineend2;
+	}else{
+		selectline;
+		replaceallfast $$AA,$$BB,casesense,regular,inselect;
+	}
+	return;
+}
+
+Commandline:{
+	$$shell = getenv( "SHELL" );
+	if( $$shell == "" ) $$shell = getenv( "COMSPEC" );
+	$$option = "/k cd \"" + directory + "\"";
+	run $$shell + " " + $$option;
+	return;
+}
+
+Opendir:{
+	run "explorer \"" + directory + "\"";
+	return;
+}
+
+Macdir:{
+	run "explorer \"" + macrodir + "\"";
+	return;
+}
+
+Moji:{
+	disabledraw;
+	##handle1 = hidemaruhandle(0);
+	if( selecting == no ){
+		##tx = x;
+		##ty = y;
+		selectall;
+	}
+	else {
+		##tx = seltopx;
+		##ty = seltopy;
+	}
+	copy;
+	moveto ##tx, ##ty;
+	openfile "/h";
+	##handle2 = hidemaruhandle(0);
+	paste;	
+	$frag = "\n| |　|\t";
+	replaceallfast $frag, "", regular;
+	selectall;
+	tozenkakuhira;
+	copy;
+	beginclipboardread;
+	##num = 0;
+	##temp = 1;
+	while(##temp > 0){
+		##temp = strlen(getclipboard);
+		##num = ##num + ##temp;
+	}
+	##num = ##num / 2;
+	setactivehidemaru ##handle1;
+	closehidemaruforced ##handle2;
+	message str(##num) + "文字";
+	setclipboard str(##num);
+	enabledraw;
+	return;
+}
+
+Sort:{
+	if( !selecting ){
+		message "範囲を選択してください";
+		endmacro;
+	}
+	##Top = seltopy;
+	##End= selendy;
+	moveto 1, ##Top;
+	##Top = lineno;
+	moveto 1, ##End;
+	if( code == eof ) ##End= lineno - 1;
+	else ##End= lineno;
+	
+	call _ReSelectSub ##Top, ##End;
+	disabledraw;disableinvert;
+	$$SortMenuItem[0] = "　昇順（a,b,c...）";
+	$$SortMenuItem[1] = "　降順（z,w,x...）";
+	mousemenuarray $$SortMenuItem, 2;
+	if( result == 1 ) call _TextSortSub 0;
+	else if( result == 2 ) call _TextSortSub 1;
+	else endmacro;
+	
+	call _ReSelectSub ##Top, ##End;
+	paste;
+	setclipboard "";
+	endmacro;
+}
+
+_ReSelectSub:{
+	escape;
+	movetolineno 1, ##1;
+	beginsel;
+	movetolineno 1, ##2;
+	golineend2;
+	right;
+	return;
+}
+
+_TextSortSub:{
+	$$CurrentFile = filename;
+	copy;
+	openfile "/h ";
+	changename "sort.tmp";
+	beginclipboardread;
+	$$TextSortBuffer = getclipboard;
+	while( $$TextSortBuffer != "" ){
+		gofiletop;
+		while( code != eof ){
+			beginsel;
+			golineend2;
+			$$TextSortLine = gettext( seltopx, seltopy, selendx, selendy );
+			if( ##1 == 0 && $$TextSortLine > $$TextSortBuffer )
+				break;
+			else if( ##1 && $$TextSortLine < $$TextSortBuffer )
+				break;
+			movetolineno 1, lineno + 1;
+		}
+		golinetop2;
+		insert $$TextSortBuffer;
+		$$TextSortBuffer = getclipboard;
+	}
+	selectall;
+	copy;
+	setactivehidemaru findhidemaru( $$CurrentFile );
+	closehidemaruforced findhidemaru( "sort.tmp" );
+	return;
+}
+
+S2C:{
+	if(selecting==0) selectall;
+	toupper;
+	return;
+}
+
+C2S:{
+	if(selecting==0) selectall;
+	tolower;
+	return;
+}
+
+timestamp:{
+	disableinvert;disabledraw;
+	##genzai_x = x;##genzai_y = y;
+	$$KEY = " Last Update [0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2} ";
+	$$NEW = " Last Update "+year+"/"+month+"/"+day+" "+hour+":"+minute+" ";
+	replaceallfast $$KEY,$$NEW,regular,casesense;
+	if(!result){
+		call _SetSign;
+		$$esc = $$return;
+		if($$esc=="") $$esc = "%%%%";
+		gofiletop;
+		insert $$esc + $$NEW + $$esc + "\n\n";
+	}
+	moveto ##genzai_x,##genzai_y;
+	return;
+}
+
+google:{
+	if( selecting ) {
+	    $$s = gettext(seltopx,seltopy,selendx,selendy);
+	} else {
+	    selectword;
+	    $$s = gettext(seltopx,seltopy,selendx,selendy);
+	    $$s = input( "Google検索",  $$s );
+	}
+	if( $$s == "" ) endmacro;
+	$$param = "";
+	if( #fHmnetex ) {
+	    $$percent = "%";
+	    $$and = "&";
+	} else {
+	    $$percent = "^%%";
+	    $$and = "^&";
+	}
+	##c = strlen( $$s );
+	##i = 0;
+	while( ##i < ##c ) {
+	    $$param = $$param+$$percent+leftstr(hex(ascii(midstr($$s,##i,1))),2);
+	    ##i = ##i + 1;
+	}
+	$$param = "http://www.google.co.jp/search?q=" + $$param +
+	        $$and + "ie=Shift_JIS" + $$and + "oe=Shift_JIS" +
+	        $$and + "hl=ja";
+	if( #fHmnetex ) openfile $$param;
+	else run getenv("Comspec") + " /c start " + $$param + " >nul";
+	return;
+}
+
