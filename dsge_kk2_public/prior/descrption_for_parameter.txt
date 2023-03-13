@@ -1,0 +1,31 @@
+%---------------
+% Transpec File
+%---------------
+Each row has the following specification:
+
+     tr~a~b~c
+
+tr parameter transformation type
+    0: no transformation needed
+    1: [a,b] -> [-1,1] -> [-inf,inf] by (1/c)*c*z/sqrt(1-c*z^2)
+    2: [0,inf] -> [-inf,inf] by b + (1/c)*ln(para[i]-a);
+a  transformation argument a (usually lower bound)
+b  transformation argument b (usually upper bound)
+c  transformation argument c
+
+%---------------
+% Prior File
+%---------------
+Each row has the specification arg1, arg2, shape, mask, fix			
+The pdf shape of the prior density is given by:
+1	Beta	mean, std
+2	GAMMA	mean, std
+3	Normal	mean, std
+4	invgamma (s^2, nu)
+5	uniform	a,b
+
+arg1	1st argument for pdf
+arg2	2nd argument for pdf
+shpae   the type of pdf
+mask 	1 if the parameter is fixed to a constant
+fix	fixed parameter value (0 if mask=0)
