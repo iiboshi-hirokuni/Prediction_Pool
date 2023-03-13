@@ -1,0 +1,213 @@
+>> fortran(GAM0j)
+fortran(GAM1j)
+fortran(PSI0j)
+fortran(PPIj)
+
+ans =
+
+      GAM0j(1,1) = sigma/((theta_Var/z_star-1.0D0)*((pii*theta_Var)/r_n-
+     +1.0D0))+(pii*sigma*theta_Var**2)/(r_n*z_star*(theta_Var/z_star-1.0
+     +D0)*((pii*theta_Var)/r_n-1.0D0))
+      GAM0j(1,2) = 1.0D0
+      GAM0j(1,20) = 1.0D0/((pii*theta_Var)/r_n-1.0D0)
+      GAM0j(1,30) = (sigma*theta_Var)/(z_star*(theta_Var/z_star-1.0D0)*(
+     +(pii*theta_Var)/r_n-1.0D0))
+      GAM0j(1,32) = -(pii*sigma*theta_Var)/(r_n*(theta_Var/z_star-1.0D0)
+     +*((pii*theta_Var)/r_n-1.0D0))
+      GAM0j(1,39) = -(pii*theta_Var)/(r_n*((pii*theta_Var)/r_n-1.0D0))
+      GAM0j(1,42) = -(pii*sigma*theta_Var)/(r_n*(theta_Var/z_star-1.0D0)
+     +*((pii*theta_Var)/r_n-1.0D0))
+      GAM0j(2,2) = 1.0D0
+      GAM0j(2,18) = -1.0D0
+      GAM0j(2,33) = -1.0D0
+      GAM0j(2,37) = 1.0D0
+      GAM0j(2,42) = sigma
+      GAM0j(3,2) = ((ksi_w-1.0D0)*((ksi_w*pii*z_star)/r_n-1.0D0))/(ksi_w
+     +*((kai*(lambda_w+1.0D0))/lambda_w+1.0D0))
+      GAM0j(3,3) = (pii*z_star)/r_n+((ksi_w-1.0D0)*((ksi_w*pii*z_star)/r
+     +_n-1.0D0))/(ksi_w*((kai*(lambda_w+1.0D0))/lambda_w+1.0D0))+1.0D0
+      GAM0j(3,11) = (gamma_w*pii*z_star)/r_n+1.0D0
+      GAM0j(3,20) = -((ksi_w-1.0D0)*((ksi_w*pii*z_star)/r_n-1.0D0))/(ksi
+     +_w*((kai*(lambda_w+1.0D0))/lambda_w+1.0D0))
+      GAM0j(3,22) = -1.0D0
+      GAM0j(3,30) = 1.0D0
+      GAM0j(3,31) = -(kai*(ksi_w-1.0D0)*((ksi_w*pii*z_star)/r_n-1.0D0))/
+     +(ksi_w*((kai*(lambda_w+1.0D0))/lambda_w+1.0D0))
+      GAM0j(3,34) = -(pii*z_star)/r_n
+      GAM0j(3,37) = -(pii*z_star)/r_n
+      GAM0j(3,42) = -(pii*z_star)/r_n
+      GAM0j(4,4) = 1.0D0
+      GAM0j(4,6) = -(lambda_i+1.0D0)/(lambda_i-n_k+1.0D0)
+      GAM0j(4,7) = (lambda_i+1.0D0)/(lambda_i-n_k+1.0D0)-1.0D0
+      GAM0j(4,16) = -(lambda_i+1.0D0)/(lambda_i-n_k+1.0D0)
+      GAM0j(5,5) = 1.0D0
+      GAM0j(5,6) = 1.0D0
+      GAM0j(5,35) = (delta-1.0D0)/(psi_Var*r_E)
+      GAM0j(5,36) = -(delta-1.0D0)/(psi_Var*r_E)-1.0D0
+      GAM0j(5,40) = 1.0D0
+      GAM0j(6,5) = 1.0D0
+      GAM0j(6,6) = -mu_E
+      GAM0j(6,7) = mu_E
+      GAM0j(6,16) = -mu_E
+      GAM0j(6,18) = -1.0D0
+      GAM0j(6,28) = -1.0D0
+      GAM0j(6,37) = 1.0D0
+      GAM0j(7,6) = ((delta-1.0D0)*(lambda_i+1.0D0))/(n_k*psi_Var*r_E)
+      GAM0j(7,7) = z_star/(eta*r_E)
+      GAM0j(7,8) = -(((delta-1.0D0)/(psi_Var*r_E)+1.0D0)*(lambda_i+1.0D0
+     +))/n_k
+      GAM0j(7,27) = (lambda_i+1.0D0)/n_k
+      GAM0j(7,29) = -1.0D0
+      GAM0j(7,30) = 1.0D0
+      GAM0j(8,3) = -1.0D0
+      GAM0j(8,8) = 1.0D0
+      GAM0j(8,9) = 1.0D0
+      GAM0j(8,27) = -1.0D0
+      GAM0j(8,30) = -1.0D0
+      GAM0j(8,31) = -1.0D0
+      GAM0j(9,6) = mu
+      GAM0j(9,8) = -mu
+      GAM0j(9,9) = 1.0D0
+      GAM0j(10,3) = alpha-1.0D0
+      GAM0j(10,8) = -alpha
+      GAM0j(10,10) = 1.0D0
+      GAM0j(11,10) = -((ksi_p-1.0D0)*((ksi_p*pii*z_star)/r_n-1.0D0))/ksi
+     +_p
+      GAM0j(11,11) = (gamma_p*pii*z_star)/r_n+1.0D0
+      GAM0j(11,23) = -1.0D0
+      GAM0j(11,37) = -(pii*z_star)/r_n
+      GAM0j(12,9) = -alpha*(phi_o_y+1.0D0)
+      GAM0j(12,14) = 1.0D0
+      GAM0j(12,27) = alpha*(phi_o_y+1.0D0)
+      GAM0j(12,30) = alpha*(phi_o_y+1.0D0)
+      GAM0j(12,31) = (alpha-1.0D0)*(phi_o_y+1.0D0)
+      GAM0j(13,1) = -c_y
+      GAM0j(13,14) = 1.0D0
+      GAM0j(13,15) = -i_y
+      GAM0j(13,21) = -1.0D0
+      GAM0j(14,9) = (delta+(psi_Var*r_n)/pii-1.0D0)/(psi_Var*z_star)
+      GAM0j(14,15) = -(delta-1.0D0)/(psi_Var*z_star)-1.0D0
+      GAM0j(14,16) = 1.0D0
+      GAM0j(14,27) = -(delta-1.0D0)/(psi_Var*z_star)
+      GAM0j(14,30) = -(delta-1.0D0)/(psi_Var*z_star)
+      GAM0j(15,6) = 1.0D0
+      GAM0j(15,15) = -inv_zeta-(inv_zeta*pii*z_star)/r_n
+      GAM0j(15,17) = -inv_zeta
+      GAM0j(15,24) = -1.0D0
+      GAM0j(15,27) = -inv_zeta
+      GAM0j(15,30) = -inv_zeta
+      GAM0j(15,38) = (inv_zeta*pii*z_star)/r_n
+      GAM0j(15,40) = (inv_zeta*pii*z_star)/r_n
+      GAM0j(15,41) = (inv_zeta*pii*z_star)/r_n
+      GAM0j(15,42) = (inv_zeta*pii*z_star)/r_n
+      GAM0j(16,11) = phi_pi*(phi_r-1.0D0)*(1.0D0/4.0D0)
+      GAM0j(16,12) = phi_pi*(phi_r-1.0D0)*(1.0D0/4.0D0)
+      GAM0j(16,13) = phi_pi*(phi_r-1.0D0)*(1.0D0/4.0D0)
+      GAM0j(16,14) = phi_y*(phi_r-1.0D0)
+      GAM0j(16,18) = 1.0D0
+      GAM0j(16,19) = -phi_y*(phi_r-1.0D0)
+      GAM0j(16,25) = -1.0D0
+      GAM0j(17,9) = -alpha*(phi_o_y+1.0D0)
+      GAM0j(17,14) = 1.0D0
+      GAM0j(17,19) = -1.0D0
+      GAM0j(17,31) = (alpha-1.0D0)*(phi_o_y+1.0D0)
+      GAM0j(18,1) = 1.0D0
+      GAM0j(19,2) = 1.0D0
+      GAM0j(20,3) = 1.0D0
+      GAM0j(21,6) = 1.0D0
+      GAM0j(22,8) = 1.0D0
+      GAM0j(23,11) = 1.0D0
+      GAM0j(24,15) = 1.0D0
+      GAM0j(25,20) = 1.0D0
+      GAM0j(26,27) = 1.0D0
+      GAM0j(27,17) = 1.0D0
+      GAM0j(28,30) = 1.0D0
+      GAM0j(29,20) = 1.0D0
+      GAM0j(30,21) = 1.0D0
+      GAM0j(31,22) = 1.0D0
+      GAM0j(32,23) = 1.0D0
+      GAM0j(33,24) = 1.0D0
+      GAM0j(34,25) = 1.0D0
+      GAM0j(35,26) = 1.0D0
+      GAM0j(36,27) = 1.0D0
+      GAM0j(37,28) = 1.0D0
+      GAM0j(38,29) = 1.0D0
+      GAM0j(39,17) = 1.0D0
+      GAM0j(40,26) = -1.0D0
+      GAM0j(40,27) = alpha/(alpha-1.0D0)
+      GAM0j(40,30) = 1.0D0
+      GAM0j(41,12) = 1.0D0
+      GAM0j(42,13) = 1.0D0
+
+
+ans =
+
+      GAM1j(1,1) = (sigma*theta_Var)/(z_star*(theta_Var/z_star-1.0D0)*((
+     +pii*theta_Var)/r_n-1.0D0))
+      GAM1j(3,3) = 1.0D0
+      GAM1j(3,11) = gamma_w
+      GAM1j(7,5) = -(lambda_i+1.0D0)/n_k+1.0D0
+      GAM1j(7,6) = -(lambda_i+1.0D0)/n_k
+      GAM1j(7,7) = 1.0D0
+      GAM1j(8,16) = -1.0D0
+      GAM1j(11,11) = gamma_p
+      GAM1j(12,16) = alpha*(phi_o_y+1.0D0)
+      GAM1j(14,16) = -(delta-1.0D0)/(psi_Var*z_star)
+      GAM1j(15,15) = -inv_zeta
+      GAM1j(16,13) = phi_pi*(phi_r-1.0D0)*(-1.0D0/4.0D0)
+      GAM1j(16,18) = phi_r
+      GAM1j(17,16) = alpha*(phi_o_y+1.0D0)
+      GAM1j(18,32) = 1.0D0
+      GAM1j(19,33) = 1.0D0
+      GAM1j(20,34) = 1.0D0
+      GAM1j(21,35) = 1.0D0
+      GAM1j(22,36) = 1.0D0
+      GAM1j(23,37) = 1.0D0
+      GAM1j(24,38) = 1.0D0
+      GAM1j(25,39) = 1.0D0
+      GAM1j(26,40) = 1.0D0
+      GAM1j(27,41) = 1.0D0
+      GAM1j(28,42) = 1.0D0
+      GAM1j(29,20) = rho_b
+      GAM1j(30,21) = rho_g
+      GAM1j(31,22) = rho_w
+      GAM1j(32,23) = rho_p
+      GAM1j(33,24) = rho_nu
+      GAM1j(34,25) = rho_r
+      GAM1j(35,26) = rho_z
+      GAM1j(36,27) = rho_psi
+      GAM1j(37,28) = rho_efp
+      GAM1j(38,29) = rho_nw
+      GAM1j(39,17) = rho_i
+      GAM1j(41,11) = 1.0D0
+      GAM1j(42,12) = 1.0D0
+
+
+ans =
+
+      PSI0j(29,1) = 1.0D0
+      PSI0j(30,2) = 1.0D0
+      PSI0j(31,3) = 1.0D0
+      PSI0j(32,4) = 1.0D0
+      PSI0j(33,5) = 1.0D0
+      PSI0j(34,6) = 1.0D0
+      PSI0j(35,7) = 1.0D0
+      PSI0j(36,8) = 1.0D0
+      PSI0j(37,9) = 1.0D0
+      PSI0j(38,10) = 1.0D0
+      PSI0j(39,11) = 1.0D0
+
+
+ans =
+
+      PPIj(18,1) = 1.0D0
+      PPIj(19,2) = 1.0D0
+      PPIj(20,3) = 1.0D0
+      PPIj(21,4) = 1.0D0
+      PPIj(22,5) = 1.0D0
+      PPIj(23,6) = 1.0D0
+      PPIj(24,7) = 1.0D0
+      PPIj(25,8) = 1.0D0
+      PPIj(26,9) = 1.0D0
+      PPIj(27,10) = 1.0D0
+      PPIj(28,11) = 1.0D0
